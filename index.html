@@ -34,9 +34,9 @@
         <canvas id="gameCanvas" width="800" height="400"></canvas>
         <div class="instructions">
             <h2>How to Play</h2>
-            <p>使用空白鍵跳躍</p>
-            <p>收集金幣並避開障礙物</p>
-            <p>目前分數: <span id="score">0</span> | 最高分數: <span id="highScore">0</span></p>
+            <p>Press the spacebar to jump</p>
+            <p>Collect coins and avoid obstacles</p>
+            <p>Current score: <span id="score">0</span> | High score: <span id="highScore">0</span></p>
         </div>
     </div>
 
@@ -46,12 +46,12 @@
         const scoreElement = document.getElementById('score');
         const highScoreElement = document.getElementById('highScore');
 
-        // 遊戲狀態
+        // Game state
         let score = 0;
         let highScore = 0;
         let gameOver = false;
 
-        // 玩家
+        // Player
         const player = {
             x: 100,
             y: 300,
@@ -62,18 +62,18 @@
             speed: 5
         };
 
-        // 遊戲物件
+        // Game objects
         const obstacles = [];
         const coins = [];
         let groundY = 340;
 
-        // 遊戲設定
+        // Game settings
         const gravity = 0.8;
         const jumpStrength = -15;
         const obstacleInterval = 1500;
         const coinInterval = 2000;
 
-        // 事件監聽
+        // Event listener
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space' && !player.jumping && !gameOver) {
                 player.jumping = true;
@@ -105,7 +105,7 @@
         function update() {
             if (gameOver) return;
 
-            // 更新玩家
+            // Update player
             if (player.jumping) {
                 player.y += player.jumpForce;
                 player.jumpForce += gravity;
@@ -116,11 +116,11 @@
                 }
             }
 
-            // 更新障礙物
+            // Update obstacles
             for (let i = obstacles.length - 1; i >= 0; i--) {
                 obstacles[i].x -= player.speed;
                 
-                // 檢查碰撞
+                // Check for collisions
                 if (checkCollision(player, obstacles[i])) {
                     gameOver = true;
                     if (score > highScore) {
@@ -134,11 +134,11 @@
                 }
             }
 
-            // 更新金幣
+            // Update coins
             for (let i = coins.length - 1; i >= 0; i--) {
                 coins[i].x -= player.speed;
 
-                // 檢查收集金幣
+                // Check if a coin is collected
                 if (checkCollision(player, coins[i])) {
                     coins.splice(i, 1);
                     score += 10;
@@ -153,24 +153,24 @@
         }
 
         function draw() {
-            // 清除畫布
+            // Clear the canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 繪製地面
+            // Draw the ground
             ctx.fillStyle = '#4CAF50';
             ctx.fillRect(0, groundY, canvas.width, canvas.height - groundY);
 
-            // 繪製玩家
+            // Draw the player
             ctx.fillStyle = '#2196F3';
             ctx.fillRect(player.x, player.y, player.width, player.height);
 
-            // 繪製障礙物
+            // Draw obstacles
             ctx.fillStyle = '#F44336';
             obstacles.forEach(obstacle => {
                 ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
             });
 
-            // 繪製金幣
+            // Draw coins
             ctx.fillStyle = '#FFD700';
             coins.forEach(coin => {
                 ctx.beginPath();
@@ -178,15 +178,15 @@
                 ctx.fill();
             });
 
-            // 繪製遊戲結束畫面
+            // Draw game over screen
             if (gameOver) {
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = '#fff';
                 ctx.font = '48px Arial';
-                ctx.fillText('遊戲結束!', canvas.width/2 - 100, canvas.height/2);
+                ctx.fillText('Game Over!', canvas.width/2 - 100, canvas.height/2);
                 ctx.font = '24px Arial';
-                ctx.fillText('按空白鍵重新開始', canvas.width/2 - 100, canvas.height/2 + 40);
+                ctx.fillText('Press spacebar to restart', canvas.width/2 - 100, canvas.height/2 + 40);
             }
         }
 
@@ -207,14 +207,14 @@
             coins.length = 0;
         }
 
-        // 遊戲循環
+        // Game loop
         function gameLoop() {
             update();
             draw();
             requestAnimationFrame(gameLoop);
         }
 
-        // 開始遊戲系統
+        // Start game
         setInterval(createObstacle, obstacleInterval);
         setInterval(createCoin, coinInterval);
         gameLoop();
