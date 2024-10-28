@@ -118,8 +118,11 @@
                     }
                 }
 
+                // If the obstacle moves off the screen, remove it and increment the score
                 if (obstacles[i].x + obstacles[i].width < 0) {
                     obstacles.splice(i, 1);
+                    score++;  // Increment score when the obstacle is successfully passed
+                    scoreElement.textContent = score;  // Update the score display
                 }
             }
         }
