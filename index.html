@@ -145,6 +145,16 @@
                 ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
             });
 
+            // 示例：添加雲朵的閉合形狀
+function drawCloud(x, y, radius) {
+    ctx.beginPath();
+    ctx.arc(x, y, radius, Math.PI * 0.5, Math.PI * 1.5);
+    ctx.arc(x + radius, y - radius, radius, Math.PI * 1, Math.PI * 2);
+    ctx.arc(x + radius * 2, y, radius, Math.PI * 1.5, Math.PI * 0.5);
+    ctx.closePath();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+}
             // Draw game over screen
             if (gameOver) {
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
