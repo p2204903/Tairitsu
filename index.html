@@ -135,22 +135,22 @@
             }
 
             // Update coins
-            for (let i = coins.length - 1; i >= 0; i--) {
-                coins[i].x -= player.speed;
+            // Update the coin collision check
+for (let i = coins.length - 1; i >= 0; i--) {
+    coins[i].x -= player.speed;
 
-                // Check if a coin is collected
-                if (checkCollision(player, coins[i])) {
-                    coins.splice(i, 1);
-                    score += 10;
-                    scoreElement.textContent = score;
-                    continue;
-                }
+    // Check if the player collects the coin (using circle-rectangle collision)
+    if (checkCollision(player, coins[i])) {
+        coins.splice(i, 1);
+        score += 10;
+        scoreElement.textContent = score;
+        continue;
+    }
 
-                if (coins[i].x + coins[i].width < 0) {
-                    coins.splice(i, 1);
-                }
-            }
-        }
+    if (coins[i].x + coins[i].width < 0) {
+        coins.splice(i, 1);
+    }
+}
 
         function draw() {
             // Clear the canvas
